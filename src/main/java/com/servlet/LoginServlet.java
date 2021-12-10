@@ -2,6 +2,7 @@ package com.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -14,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(
 		urlPatterns = "/LoginServlet",
 		initParams = {
-				@WebInitParam(name = "user", value = "Amit"),
+				@WebInitParam(name = "user", value = "^[A-Z]{1}[a-z]{2,}"),
 				@WebInitParam(name = "password", value = "am")
 		}
 		)
@@ -29,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 		String userId = getServletConfig().getInitParameter("user");
 		String password = getServletConfig().getInitParameter("password");
 		
-		if(userId.equals(user) && password.equals(pwd)) {
+		if(Pattern.matches(userId, user) && password.equals(pwd)) {
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
 		} else {
